@@ -8,11 +8,11 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="relative flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 hover:shadow-lg shadow-md"
-      style={{ 
-        backgroundColor: isDarkMode ? '#301c7c' : '#2563eb',
-      }}
+      className={`relative flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 hover:shadow-lg shadow-md
+        ${isDarkMode ? 'bg-[#581c87]' : 'bg-blue-600'}`}
       aria-label="Переключить тему"
+      aria-pressed={isDarkMode}
+      role="switch"
     >
       <motion.div
         initial={false}
@@ -31,4 +31,4 @@ export default function ThemeToggle() {
       </motion.div>
     </button>
   );
-} 
+}

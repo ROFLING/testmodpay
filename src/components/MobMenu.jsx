@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
@@ -9,6 +9,21 @@ export default function MobMenu({ Menus }) {
   const [isOpen, setIsOpen] = useState(false);
   const [clicked, setClicked] = useState(null);
   const [hoveredItems, setHoveredItems] = useState({});
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target) && isOpen) {
+        setIsOpen(false);
+        setClicked(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
   
   const toggleDrawer = useCallback(() => {
     setIsOpen(prev => !prev);
@@ -39,17 +54,22 @@ export default function MobMenu({ Menus }) {
   }, []);
 
   return (
-    <div>
+    <div role="navigation" aria-label="Мобильное меню">
       <button 
-        className="lg:hidden z-[999] relative text-black dark:text-white" 
+        className={`lg:hidden z-[999] relative ${isDarkMode ? 'text-white' : 'text-black'}`}
         onClick={toggleDrawer}
-        style={{ color: isDarkMode ? 'white' : 'black' }}
+        aria-expanded={isOpen}
+        aria-controls="mobile-menu"
+        aria-label={isOpen ? 'Закрыть меню' : 'Открыть меню'}
       >
-        {isOpen ? <X /> : <Menu />}
+        {isOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
       </button>
 
       <motion.div
-        className="fixed left-0 right-0 top-16 overflow-y-auto max-h-[calc(100vh-4rem)] backdrop-blur text-black dark:text-white px-3 sm:px-6 pb-20 z-[9998] transition-colors duration-300"
+        ref={menuRef}
+        id="mobile-menu"
+        className={`fixed left-0 right-0 top-16 overflow-y-auto max-h-[calc(100vh-4rem)] backdrop-blur px-3 sm:px-6 pb-20 z-[9998] transition-colors duration-300
+          ${isDarkMode ? 'bg-[#0a0016] text-white' : 'bg-white text-black'}`}
         initial={{ x: "100%" }}
         animate={{ x: isOpen ? "0%" : "100%" }}
         transition={{ 
@@ -57,10 +77,7 @@ export default function MobMenu({ Menus }) {
           duration: 0.3,
           ease: "easeInOut"
         }}
-        style={{ 
-          backgroundColor: isDarkMode ? '#0a0016' : 'white',
-          color: isDarkMode ? 'white' : 'black'
-        }}
+        role="menu"
       >
         <div className="max-w-lg mx-auto">
           {/* Кнопки для маленьких экранов */}
@@ -70,18 +87,14 @@ export default function MobMenu({ Menus }) {
               <ThemeToggle />
             </div>
             <button
-              className="w-full py-2 px-4 rounded-md text-white font-semibold transition-all duration-300 hover:shadow-lg"
-              style={{ 
-                backgroundColor: isDarkMode ? '#301c7c' : '#2563eb'
-              }}
+              className={`w-full py-2 px-4 rounded-md text-white font-semibold transition-all duration-300 hover:shadow-lg
+                ${isDarkMode ? 'bg-purple-900' : 'bg-blue-600'}`}
             >
               Sign In
             </button>
             <button
-              className="w-full py-2 px-4 rounded-md text-white font-semibold transition-all duration-300 hover:shadow-lg"
-              style={{ 
-                backgroundColor: isDarkMode ? '#301c7c' : '#2563eb'
-              }}
+              className={`w-full py-2 px-4 rounded-md text-white font-semibold transition-all duration-300 hover:shadow-lg
+                ${isDarkMode ? 'bg-purple-900' : 'bg-blue-600'}`}
             >
               Open Account
             </button>
@@ -100,76 +113,75 @@ export default function MobMenu({ Menus }) {
               
               return (
                 <li key={name}>
-                  <span
-                    className="flex-center-between py-3 px-2 sm:px-4 rounded-md cursor-pointer relative text-base sm:text-lg font-medium"
+                  <button
+                    className={`flex w-full justify-between py-3 px-2 sm:px-4 rounded-md relative text-base sm:text-lg font-medium transition-colors duration-200
+                      ${isDarkMode ? 'text-gray-300' : 'text-black'}
+                      ${isHovered ? (isDarkMode ? 'bg-gray-800' : 'bg-gray-100') : 'bg-transparent'}`}
                     onClick={() => handleMenuClick(i)}
                     onMouseEnter={() => handleMouseEnter(itemId)}
                     onMouseLeave={() => handleMouseLeave(itemId)}
-                    style={{ 
-                      color: isDarkMode ? '#d1d5db' : 'black',
-                      backgroundColor: isHovered 
-                        ? (isDarkMode ? '#1f2937' : '#f3f4f6') 
-                        : 'transparent',
-                      transition: 'background-color 0.2s ease'
-                    }}
+                    aria-expanded={isClicked}
+                    aria-controls={hasSubMenu ? `submenu-${i}` : undefined}
+                    role="menuitem"
                   >
                     {name}
                     {hasSubMenu && (
                       <ChevronDown
-                        className={`ml-auto ${isClicked && "rotate-180"} transition-transform duration-300`}
-                        style={{ 
-                          color: isDarkMode ? '#d1d5db' : 'black'
-                        }}
+                        className={`ml-auto ${isClicked ? 'rotate-180' : ''} transition-transform duration-300
+                          ${isDarkMode ? 'text-gray-300' : 'text-black'}`}
+                        aria-hidden="true"
                       />
                     )}
-                  </span>
+                  </button>
                   {hasSubMenu && (
                     <motion.ul
+                      id={`submenu-${i}`}
                       initial="exit"
                       animate={isClicked ? "enter" : "exit"}
                       variants={subMenuDrawer}
                       className="ml-2 sm:ml-4"
+                      role="menu"
                     >
                       {subMenu.map(({ name, icon: Icon, desc }, subIndex) => {
                         const subItemId = `submenu-${i}-${subIndex}`;
                         const isSubHovered = hoveredItems[subItemId] || false;
                         
                         return (
-                          <li
+                          <button
                             key={name}
-                            className="py-2 px-2 sm:px-3 flex items-start sm:items-center rounded-md gap-x-3 cursor-pointer"
+                            className={`w-full py-2 px-2 sm:px-3 flex items-start sm:items-center rounded-md gap-x-3 transition-colors duration-200
+                              ${isDarkMode ? 'text-gray-400' : 'text-black'}
+                              ${isSubHovered ? (isDarkMode ? 'bg-gray-800' : 'bg-gray-100') : 'bg-transparent'}`}
                             onMouseEnter={() => handleMouseEnter(subItemId)}
                             onMouseLeave={() => handleMouseLeave(subItemId)}
-                            style={{ 
-                              color: isDarkMode ? '#9ca3af' : 'black',
-                              backgroundColor: isSubHovered 
-                                ? (isDarkMode ? '#1f2937' : '#f3f4f6') 
-                                : 'transparent',
-                              transition: 'background-color 0.2s ease'
-                            }}
+                            role="menuitem"
+                            tabIndex={0}
                           >
                             <div 
-                              className="p-1.5 rounded-md mt-0.5"
-                              style={{ 
-                                backgroundColor: isDarkMode ? '#1f2937' : '#f3f4f6',
-                              }}
+                              className={`p-1.5 rounded-md mt-0.5 transition-colors duration-300
+                                ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}
+                                ${isSubHovered ? (isDarkMode ? 'bg-[#581c87]' : 'bg-blue-600') : ''}`}
+                              aria-hidden="true"
                             >
                               <Icon 
                                 size={16} 
-                                style={{ 
-                                  color: isDarkMode ? '#9ca3af' : 'black'
-                                }}
+                                className={`transition-colors duration-300
+                                  ${isSubHovered ? 'text-white' : (isDarkMode ? 'text-gray-400' : 'text-black')}`}
                               />
                             </div>
                             <div className="flex-1">
-                              <span className="block text-sm sm:text-base font-semibold mb-0.5">
+                              <span className={`block text-sm sm:text-base font-semibold mb-0.5 transition-colors duration-300
+                                ${isSubHovered ? (isDarkMode ? 'text-white' : 'text-blue-600') : (isDarkMode ? 'text-gray-300' : 'text-black')}`}
+                              >
                                 {name}
                               </span>
-                              <span className="block text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                              <span className={`block text-xs sm:text-sm transition-colors duration-300
+                                ${isSubHovered ? (isDarkMode ? 'text-gray-300' : 'text-gray-700') : 'text-gray-500 dark:text-gray-400'}`}
+                              >
                                 {desc}
                               </span>
                             </div>
-                          </li>
+                          </button>
                         );
                       })}
                     </motion.ul>

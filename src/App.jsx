@@ -42,12 +42,10 @@ export default function App() {
 
   return (
     <div 
-      className="min-h-screen w-full bg-white dark:bg-[#0a0016] lg:select-none transition-colors duration-300"
-      style={{ backgroundColor: isDarkMode ? '#0a0016' : 'white' }}
+      className="min-h-screen w-full lg:select-none bg-white dark:bg-[#0a0016] transition-colors duration-300"
     >
       <header 
         className="h-16 text-[15px] fixed inset-0 flex-center bg-white dark:bg-[#0a0016] z-[9999] transition-colors duration-300 w-full"
-        style={{ backgroundColor: isDarkMode ? '#0a0016' : 'white' }}
       >
         <nav className="px-3.5 flex-center-between w-full max-w-7xl mx-auto">
           <div className="flex-center gap-x-3 z-[999] relative">
@@ -56,8 +54,7 @@ export default function App() {
                 width="258" 
                 height="258" 
                 rx="54.3158" 
-                fill={isDarkMode ? '#301c7c' : '#1C58F7'}
-                className="transition-colors duration-300"
+                className="transition-colors duration-300 fill-[#1C58F7] dark:fill-[#581c87]"
               />
               <path 
                 d="M47.7195 196.895H88.4563V129L129.193 169.737L169.93 129V196.895H210.667V47.5263L129.193 129L47.7195 47.5263V196.895Z" 
@@ -66,7 +63,6 @@ export default function App() {
             </svg>
             <span 
               className="font-bold text-black dark:text-white text-2xl transition-colors duration-300"
-              style={{ color: isDarkMode ? 'white' : 'black' }}
             >
               MODPayment
             </span>
@@ -83,19 +79,13 @@ export default function App() {
             </div>
             <button
               aria-label="sign-in"
-              className="hidden lg:flex theme-button px-3 py-1.5 z-[999]"
-              style={{ 
-                backgroundColor: isDarkMode ? '#301c7c' : '#2563eb'
-              }}
+              className="hidden lg:flex theme-button px-3 py-1.5 z-[999] bg-[#2563eb] dark:bg-[#581c87] transition-colors duration-300"
             >
               Sign In
             </button>
             <button
               aria-label="open-account"
-              className="hidden lg:flex theme-button px-3 py-1.5 z-[999]"
-              style={{ 
-                backgroundColor: isDarkMode ? '#301c7c' : '#2563eb'
-              }}
+              className="hidden lg:flex theme-button px-3 py-1.5 z-[999] bg-[#2563eb] dark:bg-[#581c87] transition-colors duration-300"
             >
               Open Account
             </button>
@@ -107,66 +97,52 @@ export default function App() {
       </header>
 
       <section 
-        className="pt-40 pb-16 bg-white dark:bg-[#0a0016] transition-colors duration-300"
-        style={{ backgroundColor: isDarkMode ? '#0a0016' : 'white' }}
-      >
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="flex flex-col lg:flex-row items-start justify-between gap-10">
-            <div className="w-full lg:w-5/12 pt-10 mb-10 lg:mb-0 text-center lg:text-left">
-              <h1 
-                className="text-4xl md:text-5xl lg:text-7xl font-bold text-black dark:text-white mb-6 leading-tight transition-colors duration-300"
-                style={{ color: isDarkMode ? 'white' : 'black' }}
-              >
-                The Future of<br />Digital<br />Payments
-              </h1>
-              <p 
-                className="text-lg text-black dark:text-gray-300 mb-8 transition-colors duration-300"
-                style={{ color: isDarkMode ? '#d1d5db' : 'black' }}
-              >
-                Global payment solutions for businesses of all sizes.<br />
-                Send, spend, and receive payments with ease.
-              </p>
-              <div className="hidden lg:flex flex-wrap gap-4 justify-center lg:justify-start">
-                <button 
-                  className="theme-button px-8 py-4 text-xl w-full sm:w-auto"
-                  style={{ 
-                    backgroundColor: isDarkMode ? '#301c7c' : '#2563eb'
-                  }}
-                >
-                  Get started
-                </button>
-              </div>
-            </div>
-            
-            <div className="w-full lg:w-7/12 relative">
-              <div className="relative flex justify-center">
-                <div className="phone-container">
-                  <img 
-                    ref={lightImageRef}
-                    src="/phone.png" 
-                    alt="Mobile App Light" 
-                    className="phone-image light-phone"
-                    style={{ 
-                      opacity: isDarkMode ? 0 : 1,
-                      transition: 'opacity 0.3s ease'
-                    }}
-                  />
-                  <img 
-                    ref={darkImageRef}
-                    src="/phone2.png" 
-                    alt="Mobile App Dark" 
-                    className="phone-image dark-phone"
-                    style={{ 
-                      opacity: isDarkMode ? 1 : 0,
-                      transition: 'opacity 0.3s ease'
-                    }}
-                  />
+            className="pt-40 pb-16 bg-white dark:bg-[#0a0016] transition-colors duration-300"
+          >
+            <div className="container mx-auto px-4 max-w-7xl">
+              <div className="flex flex-col lg:flex-row items-start justify-between gap-10">
+                <div className="w-full lg:w-5/12 pt-10 mb-10 lg:mb-0 text-center lg:text-left">
+                  <h1 
+                    className="text-4xl md:text-5xl lg:text-7xl font-bold text-black dark:text-white mb-6 leading-tight transition-colors duration-300"
+                  >
+                    The Future of<br />Digital<br />Payments
+                  </h1>
+                  <p 
+                    className="text-lg text-black dark:text-gray-300 mb-8 transition-colors duration-300"
+                  >
+                    Global payment solutions for businesses of all sizes.<br />
+                    Send, spend, and receive payments with ease.
+                  </p>
+                  <div className="hidden lg:flex flex-wrap gap-4 justify-center lg:justify-start">
+                    <button 
+                      className="theme-button px-8 py-4 text-xl w-full sm:w-auto bg-[#2563eb] dark:bg-[#581c87] transition-colors duration-300"
+                    >
+                      Get started
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="w-full lg:w-7/12 relative">
+                  <div className="relative flex justify-center">
+                    <div className="phone-container">
+                      <img 
+                        ref={lightImageRef}
+                        src="/phone.png" 
+                        alt="Mobile App Light" 
+                        className={`phone-image light-phone transition-opacity duration-300 ${isDarkMode ? 'opacity-0' : 'opacity-100'}`}
+                      />
+                      <img 
+                        ref={darkImageRef}
+                        src="/phone2.png" 
+                        alt="Mobile App Dark" 
+                        className={`phone-image dark-phone transition-opacity duration-300 ${isDarkMode ? 'opacity-100' : 'opacity-0'}`}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
+          </section>
     </div>
   );
 }
