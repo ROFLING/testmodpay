@@ -17,134 +17,125 @@ import { MapPin } from "lucide-react";
 import { Database } from "lucide-react";
 import { PanelsTopLeft } from "lucide-react";
 import { PanelTop } from "lucide-react";
+import { Code } from "lucide-react";
+import { BarChart3 } from "lucide-react";
+import { LineChart } from "lucide-react";
+import { Puzzle } from "lucide-react";
+import { Wrench } from "lucide-react";
+import { Terminal } from "lucide-react";
+import { FileCode } from "lucide-react";
+import { Gem } from "lucide-react";
 
 export const Menus = [
   {
-    name: "Features",
-    subMenuHeading: ["Design", "Scale"],
+    name: "Products",
+    subMenuHeading: ["Core", "Additional"],
     subMenu: [
       {
-        name: "Design",
-        desc: "Responsive design",
+        name: "Platform",
+        desc: "Main service",
         icon: PanelsTopLeft,
       },
       {
-        name: "Management",
-        desc: "Site control",
-        icon: Bolt,
+        name: "Analytics",
+        desc: "Business intelligence",
+        icon: BarChart3,
       },
       {
-        name: "Navigation",
-        desc: "Link pages",
-        icon: PanelTop,
+        name: "Security",
+        desc: "Data protection",
+        icon: Lock,
       },
       {
-        name: "CMS",
-        desc: "Management content",
-        icon: Database,
+        name: "Integrations",
+        desc: "Third-party services",
+        icon: Puzzle,
+      },
+    ],
+    gridCols: 2,
+  },
+  {
+    name: "Solutions",
+    subMenuHeading: ["Industries", "Business Size"],
+    subMenu: [
+      {
+        name: "Finance",
+        desc: "Banking & investments",
+        icon: LineChart,
+      },
+      {
+        name: "Retail",
+        desc: "Stores & chains",
+        icon: ShoppingBag,
+      },
+      {
+        name: "Small Business",
+        desc: "For startups",
+        icon: BriefcaseBusiness,
+      },
+      {
+        name: "Enterprise",
+        desc: "For large companies",
+        icon: ShieldPlus,
+      },
+    ],
+    gridCols: 2,
+  },
+  {
+    name: "Developers",
+    subMenuHeading: ["Documentation", "Tools"],
+    subMenu: [
+      {
+        name: "API",
+        desc: "Service integration",
+        icon: Code,
+      },
+      {
+        name: "SDK",
+        desc: "Development libraries",
+        icon: Terminal,
+      },
+      {
+        name: "Plugins",
+        desc: "Extensions",
+        icon: Wrench,
+      },
+      {
+        name: "Code Examples",
+        desc: "Ready solutions",
+        icon: FileCode,
       },
     ],
     gridCols: 2,
   },
   {
     name: "Resources",
-    subMenuHeading: ["Get started", "Programs", "Recent"],
+    subMenuHeading: ["Learning", "Support"],
     subMenu: [
       {
-        name: "Markplace",
-        desc: "Browse templates",
-        icon: ShoppingBag,
-      },
-      {
-        name: "Meetups",
-        desc: "Upcoming events",
-        icon: MapPin,
-      },
-      {
-        name: "Updates",
-        desc: "Changelog",
-        icon: BellDot,
-      },
-      {
-        name: "Academy",
-        desc: "Watch lessions",
-        icon: Play,
-      },
-      {
         name: "Blog",
-        desc: "Posts",
+        desc: "News & articles",
         icon: BookOpenText,
       },
       {
-        name: "Figma",
-        desc: "Plugin",
-        icon: Figma,
+        name: "Learning",
+        desc: "Video tutorials",
+        icon: Play,
       },
       {
-        name: "Experts",
-        desc: "Jobs",
-        icon: BriefcaseBusiness,
-      },
-      {
-        name: "Gallery",
-        desc: "Images",
-        icon: Images,
-      },
-    ],
-    gridCols: 3,
-  },
-  {
-    name: "Support",
-    subMenu: [
-      {
-        name: "Help",
-        desc: "Center",
+        name: "Help Center",
+        desc: "Support resources",
         icon: CircleHelp,
       },
       {
         name: "Community",
-        desc: "Project help",
+        desc: "Forum & discussions",
         icon: MessageCircle,
-      },
-      {
-        name: "Emergency",
-        desc: "Urgent issues",
-        icon: TriangleAlert,
-      },
-    ],
-    gridCols: 1,
-  },
-  {
-    name: "Enterprise",
-    subMenuHeading: ["Overview", "Features"],
-    subMenu: [
-      {
-        name: "Enterprise",
-        desc: "Overview",
-        icon: ShieldPlus,
-      },
-      {
-        name: "Collaboration",
-        desc: "Design together",
-        icon: Users,
-      },
-      {
-        name: "Customers",
-        desc: "Stories",
-        icon: Dessert,
-      },
-      {
-        name: "Security",
-        desc: "Your site secured",
-        icon: Lock,
       },
     ],
     gridCols: 2,
   },
   {
     name: "Pricing",
-  },
-  {
-    name: "Contact",
   },
 ];
