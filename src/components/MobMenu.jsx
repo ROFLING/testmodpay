@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
@@ -10,10 +10,10 @@ export default function MobMenu({ Menus }) {
   const [clicked, setClicked] = useState(null);
   const [hoveredItems, setHoveredItems] = useState({});
   
-  const toggleDrawer = () => {
-    setIsOpen(!isOpen);
+  const toggleDrawer = useCallback(() => {
+    setIsOpen(prev => !prev);
     setClicked(null);
-  };
+  }, []);
 
   const subMenuDrawer = {
     enter: {
@@ -26,13 +26,17 @@ export default function MobMenu({ Menus }) {
     },
   };
 
-  const handleMouseEnter = (id) => {
+  const handleMouseEnter = useCallback((id) => {
     setHoveredItems(prev => ({...prev, [id]: true}));
-  };
+  }, []);
 
-  const handleMouseLeave = (id) => {
+  const handleMouseLeave = useCallback((id) => {
     setHoveredItems(prev => ({...prev, [id]: false}));
-  };
+  }, []);
+
+  const handleMenuClick = useCallback((index) => {
+    setClicked(prev => prev === index ? null : index);
+  }, []);
 
   return (
     <div>
@@ -93,13 +97,13 @@ export default function MobMenu({ Menus }) {
                 <li key={name}>
                   <span
                     className="flex-center-between py-3 px-2 sm:px-4 rounded-md cursor-pointer relative text-base sm:text-lg font-medium"
-                    onClick={() => setClicked(isClicked ? null : i)}
+                    onClick={() => handleMenuClick(i)}
                     onMouseEnter={() => handleMouseEnter(itemId)}
                     onMouseLeave={() => handleMouseLeave(itemId)}
                     style={{ 
                       color: isDarkMode ? '#d1d5db' : 'black',
                       backgroundColor: isHovered 
-                        ? (isDarkMode ? '#1f2937' /* gray-800 */ : '#f3f4f6' /* gray-100 */) 
+                        ? (isDarkMode ? '#1f2937' : '#f3f4f6') 
                         : 'transparent',
                       transition: 'background-color 0.2s ease'
                     }}
@@ -126,42 +130,43 @@ export default function MobMenu({ Menus }) {
                         const isSubHovered = hoveredItems[subItemId] || false;
                         
                         return (
-                        <li
-                          key={name}
-                          className="py-2 px-2 sm:px-3 flex items-start sm:items-center rounded-md gap-x-3 cursor-pointer"
-                          onMouseEnter={() => handleMouseEnter(subItemId)}
-                          onMouseLeave={() => handleMouseLeave(subItemId)}
-                          style={{ 
-                            color: isDarkMode ? '#9ca3af' : 'black',
-                            backgroundColor: isSubHovered 
-                              ? (isDarkMode ? '#1f2937' /* gray-800 */ : '#f3f4f6' /* gray-100 */) 
-                              : 'transparent',
-                            transition: 'background-color 0.2s ease'
-                          }}
-                        >
-                          <div 
-                            className="p-1.5 rounded-md mt-0.5"
+                          <li
+                            key={name}
+                            className="py-2 px-2 sm:px-3 flex items-start sm:items-center rounded-md gap-x-3 cursor-pointer"
+                            onMouseEnter={() => handleMouseEnter(subItemId)}
+                            onMouseLeave={() => handleMouseLeave(subItemId)}
                             style={{ 
-                              backgroundColor: isDarkMode ? '#1f2937' : '#f3f4f6',
+                              color: isDarkMode ? '#9ca3af' : 'black',
+                              backgroundColor: isSubHovered 
+                                ? (isDarkMode ? '#1f2937' : '#f3f4f6') 
+                                : 'transparent',
+                              transition: 'background-color 0.2s ease'
                             }}
                           >
-                            <Icon 
-                              size={16} 
+                            <div 
+                              className="p-1.5 rounded-md mt-0.5"
                               style={{ 
-                                color: isDarkMode ? '#9ca3af' : 'black'
+                                backgroundColor: isDarkMode ? '#1f2937' : '#f3f4f6',
                               }}
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <span className="block text-sm sm:text-base font-semibold mb-0.5">
-                              {name}
-                            </span>
-                            <span className="block text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                              {desc}
-                            </span>
-                          </div>
-                        </li>
-                      )})}
+                            >
+                              <Icon 
+                                size={16} 
+                                style={{ 
+                                  color: isDarkMode ? '#9ca3af' : 'black'
+                                }}
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <span className="block text-sm sm:text-base font-semibold mb-0.5">
+                                {name}
+                              </span>
+                              <span className="block text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                                {desc}
+                              </span>
+                            </div>
+                          </li>
+                        );
+                      })}
                     </motion.ul>
                   )}
                 </li>

@@ -3,7 +3,7 @@ import DesktopMenu from "./components/DesktopMenu";
 import MobMenu from "./components/MobMenu";
 import ThemeToggle from "./components/ThemeToggle";
 import { useTheme } from "./context/ThemeContext";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { applyThemeDirectly } from "./theme-fix";
 import "./App.css";
 
@@ -14,8 +14,7 @@ export default function App() {
   const lightImageRef = useRef(null);
   const darkImageRef = useRef(null);
 
-  // Предзагружаем оба изображения
-  useEffect(() => {
+  const preloadImages = useCallback(() => {
     const lightImage = new Image();
     const darkImage = new Image();
     
@@ -31,26 +30,15 @@ export default function App() {
     };
   }, []);
 
-  // Предотвращаем мерцание при загрузке страницы
   useEffect(() => {
     setMounted(true);
-    // Принудительно применяем тему при загрузке компонента
     applyThemeDirectly(isDarkMode);
-  }, []);
-
-  // Следим за изменениями темы
-  useEffect(() => {
-    if (mounted) {
-      applyThemeDirectly(isDarkMode);
-    }
-  }, [isDarkMode, mounted]);
+    preloadImages();
+  }, [isDarkMode, preloadImages]);
 
   if (!mounted) {
     return null;
   }
-
-  // Выводим значение темы в консоль для отладки
-  console.log('Current theme isDarkMode:', isDarkMode);
 
   return (
     <div 
@@ -118,14 +106,12 @@ export default function App() {
         </nav>
       </header>
 
-      {/* Hero Section */}
       <section 
         className="pt-40 pb-16 bg-white dark:bg-[#0a0016] transition-colors duration-300"
         style={{ backgroundColor: isDarkMode ? '#0a0016' : 'white' }}
       >
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="flex flex-col lg:flex-row items-start justify-between gap-10">
-            {/* Left Content */}
             <div className="w-full lg:w-5/12 pt-10 mb-10 lg:mb-0 text-center lg:text-left">
               <h1 
                 className="text-4xl md:text-5xl lg:text-7xl font-bold text-black dark:text-white mb-6 leading-tight transition-colors duration-300"
@@ -152,7 +138,6 @@ export default function App() {
               </div>
             </div>
             
-            {/* Right Content with Phone */}
             <div className="w-full lg:w-7/12 relative">
               <div className="relative flex justify-center">
                 <div className="phone-container">
@@ -162,7 +147,8 @@ export default function App() {
                     alt="Mobile App Light" 
                     className="phone-image light-phone"
                     style={{ 
-                      opacity: isDarkMode ? 0 : 1
+                      opacity: isDarkMode ? 0 : 1,
+                      transition: 'opacity 0.3s ease'
                     }}
                   />
                   <img 
@@ -171,7 +157,8 @@ export default function App() {
                     alt="Mobile App Dark" 
                     className="phone-image dark-phone"
                     style={{ 
-                      opacity: isDarkMode ? 1 : 0
+                      opacity: isDarkMode ? 1 : 0,
+                      transition: 'opacity 0.3s ease'
                     }}
                   />
                 </div>
