@@ -136,7 +136,7 @@ export default function DesktopMenu({ menu }) {
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <h6 
-                          className="font-bold text-lg group-hover/menubox:text-blue-600 transition-colors duration-300"
+                          className="font-bold text-lg group-hover/menubox:text-blue-600 dark:group-hover/menubox:text-white transition-colors duration-300"
                           style={{ 
                             color: isDarkMode ? 'white' : 'black',
                           }}
@@ -151,7 +151,11 @@ export default function DesktopMenu({ menu }) {
                               animate="animate"
                               exit="exit"
                               transition={{ duration: 0.2 }}
-                              className="text-blue-600 font-bold"
+                              className="transition-colors duration-300"
+                              style={{
+                                color: isDarkMode ? '#6a44a5' : '#2563eb',
+                                fontWeight: 'bold'
+                              }}
                             >
                               &gt;
                             </motion.span>

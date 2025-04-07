@@ -24,6 +24,10 @@ body {
   .sub-menu {
     @apply absolute top-[4.2rem] p-[15px] rounded-[6px] origin-[50%_-170px] backdrop-blur bg-white dark:bg-[#0a0016] z-[99999] transition-colors duration-300;
   }
+
+  .theme-button {
+    @apply text-white relative shadow rounded-md flex items-center justify-center transition-all duration-300 hover:shadow-lg hover:translate-y-[-2px] active:translate-y-0 font-semibold;
+  }
 }
 
 @layer utilities {

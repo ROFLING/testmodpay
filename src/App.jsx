@@ -3,13 +3,33 @@ import DesktopMenu from "./components/DesktopMenu";
 import MobMenu from "./components/MobMenu";
 import ThemeToggle from "./components/ThemeToggle";
 import { useTheme } from "./context/ThemeContext";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { applyThemeDirectly } from "./theme-fix";
 import "./App.css";
 
 export default function App() {
   const { isDarkMode } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState({ light: false, dark: false });
+  const lightImageRef = useRef(null);
+  const darkImageRef = useRef(null);
+
+  // Предзагружаем оба изображения
+  useEffect(() => {
+    const lightImage = new Image();
+    const darkImage = new Image();
+    
+    lightImage.onload = () => setImagesLoaded(prev => ({ ...prev, light: true }));
+    darkImage.onload = () => setImagesLoaded(prev => ({ ...prev, dark: true }));
+    
+    lightImage.src = "/phone.png";
+    darkImage.src = "/phone2.png";
+    
+    return () => {
+      lightImage.onload = null;
+      darkImage.onload = null;
+    };
+  }, []);
 
   // Предотвращаем мерцание при загрузке страницы
   useEffect(() => {
@@ -64,33 +84,29 @@ export default function App() {
             </span>
           </div>
 
-          <ul className="gap-x-1 lg:flex-center hidden z-[9999]">
+          <ul className="hidden lg:flex lg:items-center gap-x-1 z-[9999]">
             {Menus.map((menu) => (
               <DesktopMenu menu={menu} key={menu.name} />
             ))}
           </ul>
           <div className="flex-center gap-x-5 z-[999]">
-            <ThemeToggle />
+            <div className="hidden lg:block">
+              <ThemeToggle />
+            </div>
             <button
               aria-label="sign-in"
-              className="text-white z-[999] relative px-3 py-1.5 shadow rounded-md flex-center transition-all duration-300 hover:shadow-lg hover:translate-y-[-2px] active:translate-y-0 font-semibold"
+              className="hidden lg:flex theme-button px-3 py-1.5 z-[999]"
               style={{ 
-                backgroundColor: isDarkMode ? '#301c7c' : '#2563eb',
-                hover: {
-                  backgroundColor: isDarkMode ? '#3f2699' : '#1d4ed8'
-                }
+                backgroundColor: isDarkMode ? '#301c7c' : '#2563eb'
               }}
             >
               Sign In
             </button>
             <button
               aria-label="open-account"
-              className="text-white z-[999] relative px-3 py-1.5 shadow rounded-md flex-center transition-all duration-300 hover:shadow-lg hover:translate-y-[-2px] active:translate-y-0 font-semibold"
+              className="hidden lg:flex theme-button px-3 py-1.5 z-[999]"
               style={{ 
-                backgroundColor: isDarkMode ? '#301c7c' : '#2563eb',
-                hover: {
-                  backgroundColor: isDarkMode ? '#3f2699' : '#1d4ed8'
-                }
+                backgroundColor: isDarkMode ? '#301c7c' : '#2563eb'
               }}
             >
               Open Account
@@ -124,14 +140,11 @@ export default function App() {
                 Global payment solutions for businesses of all sizes.<br />
                 Send, spend, and receive payments with ease.
               </p>
-              <div className="flex flex-wrap gap-4 justify-center lg:justify-start hidden lg:flex">
+              <div className="hidden lg:flex flex-wrap gap-4 justify-center lg:justify-start">
                 <button 
-                  className="text-white px-8 py-4 rounded-lg text-xl font-semibold w-full sm:w-auto transition-all duration-300 hover:shadow-lg hover:translate-y-[-2px] active:translate-y-0"
+                  className="theme-button px-8 py-4 text-xl w-full sm:w-auto"
                   style={{ 
-                    backgroundColor: isDarkMode ? '#301c7c' : '#2563eb',
-                    hover: {
-                      backgroundColor: isDarkMode ? '#3f2699' : '#1d4ed8'
-                    }
+                    backgroundColor: isDarkMode ? '#301c7c' : '#2563eb'
                   }}
                 >
                   Get started
@@ -142,14 +155,26 @@ export default function App() {
             {/* Right Content with Phone */}
             <div className="w-full lg:w-7/12 relative">
               <div className="relative flex justify-center">
-                <img 
-                  src={isDarkMode ? "/phone2.png" : "/phone.png"} 
-                  alt="Mobile App" 
-                  className="h-auto rounded-xl w-full max-w-[550px] md:max-w-[550px] lg:max-w-[650px] transition-all duration-500"
-                  style={{ 
-                    transform: "rotate(6deg)"
-                  }}
-                />
+                <div className="phone-container">
+                  <img 
+                    ref={lightImageRef}
+                    src="/phone.png" 
+                    alt="Mobile App Light" 
+                    className="phone-image light-phone"
+                    style={{ 
+                      opacity: isDarkMode ? 0 : 1
+                    }}
+                  />
+                  <img 
+                    ref={darkImageRef}
+                    src="/phone2.png" 
+                    alt="Mobile App Dark" 
+                    className="phone-image dark-phone"
+                    style={{ 
+                      opacity: isDarkMode ? 1 : 0
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>

@@ -78,3 +78,74 @@ body {
 .read-the-docs {
   color: #888;
 }
+
+/* Стили для кнопок в хедере */
+.header-button {
+  display: none;
+}
+
+@media screen and (min-width: 1163px) {
+  .header-button {
+    display: flex;
+  }
+}
+
+/* Стили для кнопок в мобильном меню */
+.mobile-buttons {
+  display: flex;
+}
+
+.mobile-divider {
+  display: block;
+}
+
+@media screen and (min-width: 1163px) {
+  .mobile-buttons {
+    display: none;
+  }
+  
+  .mobile-divider {
+    display: none;
+  }
+}
+
+/* Стили для телефонов с плавным переходом */
+.phone-container {
+  position: relative;
+  width: 100%;
+  max-width: 550px;
+  height: auto;
+  transform: rotate(6deg);
+}
+
+.phone-image {
+  width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  transition: opacity 700ms ease;
+  max-width: 550px;
+}
+
+.light-phone {
+  position: relative;
+  z-index: 1;
+}
+
+.dark-phone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+@media screen and (min-width: 768px) {
+  .phone-container, .phone-image {
+    max-width: 550px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .phone-container, .phone-image {
+    max-width: 650px;
+  }
+}
