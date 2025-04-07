@@ -5,6 +5,57 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React</title>
+    <style>
+      /* Стили для избежания мерцания при загрузке */
+      html, body, #root {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      
+      /* Светлая тема по умолчанию */
+      html {
+        background-color: white;
+        color: black;
+      }
+      
+      /* Стили для темной темы */
+      html.dark {
+        background-color: #111827;
+        color: white;
+      }
+    </style>
+    <script>
+      // Проверяем тему из localStorage
+      (function() {
+        const savedTheme = localStorage.getItem('theme');
+        const html = document.documentElement;
+        
+        if (savedTheme === 'dark') {
+          html.classList.add('dark');
+          html.style.backgroundColor = '#111827';
+          html.style.color = 'white';
+          
+          // Устанавливаем мета-тег для цвета темы мобильного браузера
+          const metaThemeColor = document.createElement('meta');
+          metaThemeColor.name = 'theme-color';
+          metaThemeColor.content = '#111827';
+          document.head.appendChild(metaThemeColor);
+        } else {
+          html.classList.remove('dark');
+          html.style.backgroundColor = 'white';
+          html.style.color = 'black';
+          
+          // Устанавливаем мета-тег для цвета темы мобильного браузера
+          const metaThemeColor = document.createElement('meta');
+          metaThemeColor.name = 'theme-color';
+          metaThemeColor.content = '#ffffff';
+          document.head.appendChild(metaThemeColor);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -4,13 +4,25 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+  @apply h-full w-full;
+}
+
+html {
+  @apply bg-white dark:bg-[#0a0016] transition-colors duration-300;
+}
+
 body {
-  @apply bg-white text-gray-900 font-inter;
+  @apply bg-white dark:bg-[#0a0016] text-black dark:text-white font-inter transition-colors duration-300;
+}
+
+#root {
+  @apply min-h-screen w-full bg-white dark:bg-[#0a0016] transition-colors duration-300;
 }
 
 @layer components {
   .sub-menu {
-    @apply absolute top-[4.2rem] p-[15px] rounded-[6px] origin-[50%_-170px] backdrop-blur bg-white z-[99999];
+    @apply absolute top-[4.2rem] p-[15px] rounded-[6px] origin-[50%_-170px] backdrop-blur bg-white dark:bg-[#0a0016] z-[99999] transition-colors duration-300;
   }
 }
 
