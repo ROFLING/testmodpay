@@ -50,8 +50,13 @@ export default function MobMenu({ Menus }) {
 
       <motion.div
         className="fixed left-0 right-0 top-16 overflow-y-auto max-h-[calc(100vh-4rem)] backdrop-blur text-black dark:text-white px-3 sm:px-6 pb-20 z-[9998] transition-colors duration-300"
-        initial={{ x: "-100%" }}
-        animate={{ x: isOpen ? "0%" : "-100%" }}
+        initial={{ x: "100%" }}
+        animate={{ x: isOpen ? "0%" : "100%" }}
+        transition={{ 
+          type: "tween",
+          duration: 0.3,
+          ease: "easeInOut"
+        }}
         style={{ 
           backgroundColor: isDarkMode ? '#0a0016' : 'white',
           color: isDarkMode ? 'white' : 'black'
