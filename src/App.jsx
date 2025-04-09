@@ -2,6 +2,7 @@ import { Menus } from "./utils";
 import DesktopMenu from "./components/DesktopMenu";
 import MobMenu from "./components/MobMenu";
 import ThemeToggle from "./components/ThemeToggle";
+import AuthModal from "./components/AuthModal";
 import { useTheme } from "./context/ThemeContext";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { applyThemeDirectly } from "./theme-fix";
@@ -11,6 +12,8 @@ export default function App() {
   const { isDarkMode } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState({ light: false, dark: false });
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState('login');
   const lightImageRef = useRef(null);
   const darkImageRef = useRef(null);
 
@@ -80,17 +83,31 @@ export default function App() {
             <button
               aria-label="sign-in"
               className="hidden lg:flex theme-button px-3 py-1.5 z-[999] bg-[#2563eb] dark:bg-[#581c87] transition-colors duration-300 hover:bg-opacity-90 hover:brightness-110"
+              onClick={() => {
+                setAuthModalMode('login');
+                setIsAuthModalOpen(true);
+              }}
             >
               Sign In
             </button>
             <button
               aria-label="open-account"
               className="hidden lg:flex theme-button px-3 py-1.5 z-[999] bg-[#2563eb] dark:bg-[#581c87] transition-colors duration-300 hover:bg-opacity-90 hover:brightness-110"
+              onClick={() => {
+                setAuthModalMode('register');
+                setIsAuthModalOpen(true);
+              }}
             >
               Open Account
             </button>
             <div className="lg:hidden">
-              <MobMenu Menus={Menus} />
+              <MobMenu 
+                Menus={Menus} 
+                onOpenAuth={(mode) => {
+                  setAuthModalMode(mode);
+                  setIsAuthModalOpen(true);
+                }}
+              />
             </div>
           </div>
         </nav>
@@ -143,6 +160,11 @@ export default function App() {
               </div>
             </div>
           </section>
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        initialMode={authModalMode}
+      />
     </div>
   );
 }

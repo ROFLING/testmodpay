@@ -4,7 +4,7 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import ThemeToggle from "./ThemeToggle";
 
-export default function MobMenu({ Menus }) {
+export default function MobMenu({ Menus, onOpenAuth }) {
   const { isDarkMode } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [clicked, setClicked] = useState(null);
@@ -89,12 +89,20 @@ export default function MobMenu({ Menus }) {
             <button
               className={`w-full py-2 px-4 rounded-md text-white font-semibold transition-all duration-300 hover:bg-opacity-90 hover:brightness-110
                 ${isDarkMode ? 'bg-purple-900' : 'bg-blue-600'}`}
+              onClick={() => {
+                onOpenAuth('login');
+                setIsOpen(false);
+              }}
             >
               Sign In
             </button>
             <button
               className={`w-full py-2 px-4 rounded-md text-white font-semibold transition-all duration-300 hover:bg-opacity-90 hover:brightness-110
                 ${isDarkMode ? 'bg-purple-900' : 'bg-blue-600'}`}
+              onClick={() => {
+                onOpenAuth('register');
+                setIsOpen(false);
+              }}
             >
               Open Account
             </button>
