@@ -87,13 +87,13 @@ export default function MobMenu({ Menus }) {
               <ThemeToggle />
             </div>
             <button
-              className={`w-full py-2 px-4 rounded-md text-white font-semibold transition-all duration-300 hover:shadow-lg
+              className={`w-full py-2 px-4 rounded-md text-white font-semibold transition-all duration-300 hover:bg-opacity-90 hover:brightness-110
                 ${isDarkMode ? 'bg-purple-900' : 'bg-blue-600'}`}
             >
               Sign In
             </button>
             <button
-              className={`w-full py-2 px-4 rounded-md text-white font-semibold transition-all duration-300 hover:shadow-lg
+              className={`w-full py-2 px-4 rounded-md text-white font-semibold transition-all duration-300 hover:bg-opacity-90 hover:brightness-110
                 ${isDarkMode ? 'bg-purple-900' : 'bg-blue-600'}`}
             >
               Open Account
@@ -151,7 +151,7 @@ export default function MobMenu({ Menus }) {
                             key={name}
                             className={`w-full py-2 px-2 sm:px-3 flex items-start sm:items-center rounded-md gap-x-3 transition-colors duration-200
                               ${isDarkMode ? 'text-gray-400' : 'text-black'}
-                              ${isSubHovered ? (isDarkMode ? 'bg-gray-800' : 'bg-gray-100') : 'bg-transparent'}`}
+                              ${isSubHovered ? (isDarkMode ? 'bg-[#581c87] hover:bg-opacity-90 hover:brightness-110' : 'bg-blue-600 hover:bg-opacity-90 hover:brightness-110') : 'bg-transparent'}`}
                             onMouseEnter={() => handleMouseEnter(subItemId)}
                             onMouseLeave={() => handleMouseLeave(subItemId)}
                             role="menuitem"
@@ -159,25 +159,21 @@ export default function MobMenu({ Menus }) {
                           >
                             <div 
                               className={`p-1.5 rounded-md mt-0.5 transition-colors duration-300
-                                ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}
-                                ${isSubHovered ? (isDarkMode ? 'bg-[#581c87]' : 'bg-blue-600') : ''}`}
+                                ${isDarkMode ? 'bg-gray-800 text-gray-400' : 'bg-gray-100 text-black'}
+                                ${isSubHovered ? (isDarkMode ? 'bg-[#581c87] text-white' : 'bg-blue-600 text-white') : ''}`}
                               aria-hidden="true"
                             >
                               <Icon 
                                 size={16} 
-                                className={`transition-colors duration-300
-                                  ${isSubHovered ? 'text-white' : (isDarkMode ? 'text-gray-400' : 'text-black')}`}
+                                className={`transition-colors duration-300 ${isDarkMode ? (isSubHovered ? 'text-white' : 'text-gray-400') : (isSubHovered ? 'text-gray-800' : 'text-black')}`}
                               />
                             </div>
                             <div className="flex-1">
-                              <span className={`block text-sm sm:text-base font-semibold mb-0.5 transition-colors duration-300
-                                ${isSubHovered ? (isDarkMode ? 'text-white' : 'text-blue-600') : (isDarkMode ? 'text-gray-300' : 'text-black')}`}
-                              >
+                              <span className={`block text-sm sm:text-base font-semibold mb-0.5 transition-colors duration-300 ${isSubHovered ? 'text-white' : (isDarkMode ? 'text-white' : 'text-black')}`}>
                                 {name}
                               </span>
                               <span className={`block text-xs sm:text-sm transition-colors duration-300
-                                ${isSubHovered ? (isDarkMode ? 'text-gray-300' : 'text-gray-700') : 'text-gray-500 dark:text-gray-400'}`}
-                              >
+                                ${isSubHovered ? 'text-gray-300' : 'text-gray-500 dark:text-gray-400'}`}>
                                 {desc}
                               </span>
                             </div>

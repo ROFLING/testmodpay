@@ -79,13 +79,13 @@ export default function App() {
             </div>
             <button
               aria-label="sign-in"
-              className="hidden lg:flex theme-button px-3 py-1.5 z-[999] bg-[#2563eb] dark:bg-[#581c87] transition-colors duration-300"
+              className="hidden lg:flex theme-button px-3 py-1.5 z-[999] bg-[#2563eb] dark:bg-[#581c87] transition-colors duration-300 hover:bg-opacity-90 hover:brightness-110"
             >
               Sign In
             </button>
             <button
               aria-label="open-account"
-              className="hidden lg:flex theme-button px-3 py-1.5 z-[999] bg-[#2563eb] dark:bg-[#581c87] transition-colors duration-300"
+              className="hidden lg:flex theme-button px-3 py-1.5 z-[999] bg-[#2563eb] dark:bg-[#581c87] transition-colors duration-300 hover:bg-opacity-90 hover:brightness-110"
             >
               Open Account
             </button>
@@ -115,7 +115,7 @@ export default function App() {
                   </p>
                   <div className="hidden lg:flex flex-wrap gap-4 justify-center lg:justify-start">
                     <button 
-                      className="theme-button px-8 py-4 text-xl w-full sm:w-auto bg-[#2563eb] dark:bg-[#581c87] transition-colors duration-300"
+                      className="theme-button px-8 py-4 text-xl w-full sm:w-auto bg-[#2563eb] dark:bg-[#581c87] transition-colors duration-300 hover:bg-opacity-90 hover:brightness-110"
                     >
                       Get started
                     </button>

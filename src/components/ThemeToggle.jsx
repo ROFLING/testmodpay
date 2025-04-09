@@ -8,7 +8,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className={`relative flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 hover:shadow-lg shadow-md
+      className={`relative flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 shadow-md hover:bg-opacity-90 hover:brightness-110
         ${isDarkMode ? 'bg-[#581c87]' : 'bg-blue-600'}`}
       aria-label="Переключить тему"
       aria-pressed={isDarkMode}
