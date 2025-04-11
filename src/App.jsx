@@ -3,12 +3,17 @@ import DesktopMenu from "./components/DesktopMenu";
 import MobMenu from "./components/MobMenu";
 import ThemeToggle from "./components/ThemeToggle";
 import AuthModal from "./components/AuthModal";
+import AdminLogin from "./components/AdminLogin";
+import AdminDashboard from "./components/AdminDashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
 import { useTheme } from "./context/ThemeContext";
 import { useEffect, useState, useRef, useCallback } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 import { applyThemeDirectly } from "./theme-fix";
 import "./App.css";
 
-export default function App() {
+function MainApp() {
   const { isDarkMode } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState({ light: false, dark: false });
@@ -166,5 +171,26 @@ export default function App() {
         initialMode={authModalMode}
       />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <AuthProvider>
+        <Routes>
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/*" element={<MainApp />} />
+        </Routes>
+      </AuthProvider>
+    </Router>
   );
 }
