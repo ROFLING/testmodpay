@@ -54,13 +54,13 @@ export default function MobMenu({ Menus, onOpenAuth }) {
   }, []);
 
   return (
-    <div role="navigation" aria-label="Мобильное меню">
+    <div role="navigation" aria-label="Mobile Menu">
       <button 
         className={`lg:hidden z-[999] relative ${isDarkMode ? 'text-white' : 'text-black'}`}
         onClick={toggleDrawer}
         aria-expanded={isOpen}
         aria-controls="mobile-menu"
-        aria-label={isOpen ? 'Закрыть меню' : 'Открыть меню'}
+        aria-label={isOpen ? 'Close menu' : 'Open menu'}
       >
         {isOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
       </button>

@@ -6,11 +6,14 @@ import AuthModal from "./components/AuthModal";
 import AdminLogin from "./components/AdminLogin";
 import AdminDashboard from "./components/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PageTransition from "./components/PageTransition";
+import PageDots from "./components/PageDots";
 import { useTheme } from "./context/ThemeContext";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { applyThemeDirectly } from "./theme-fix";
+import { AnimatePresence } from "framer-motion";
 import "./App.css";
 
 function MainApp() {
@@ -19,6 +22,8 @@ function MainApp() {
   const [imagesLoaded, setImagesLoaded] = useState({ light: false, dark: false });
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState('login');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [direction, setDirection] = useState('right');
   const lightImageRef = useRef(null);
   const darkImageRef = useRef(null);
 
@@ -118,9 +123,12 @@ function MainApp() {
         </nav>
       </header>
 
-      <section 
+      <AnimatePresence mode="wait">
+        <PageTransition key={currentPage} direction={direction} duration={0.6}>
+          <section 
             className="pt-40 pb-16 bg-white dark:bg-[#0a0016] transition-colors duration-300"
           >
+          {currentPage === 1 && (
             <div className="container mx-auto px-4 max-w-7xl">
               <div className="flex flex-col lg:flex-row items-start justify-between gap-10">
                 <div className="w-full lg:w-5/12 pt-10 mb-10 lg:mb-0 text-center lg:text-left">
@@ -164,7 +172,54 @@ function MainApp() {
                 </div>
               </div>
             </div>
+          )}
+          {currentPage === 2 && (
+            <div className="container mx-auto px-4 max-w-7xl">
+              <div className="text-center">
+                <h2 className="text-4xl md:text-5xl font-bold text-black dark:text-white mb-6">
+                  Secure Transactions
+                </h2>
+                <p className="text-lg text-black dark:text-gray-300 mb-8">
+                  Top-level protection for your payments
+                </p>
+              </div>
+            </div>
+          )}
+          {currentPage === 3 && (
+            <div className="container mx-auto px-4 max-w-7xl">
+              <div className="text-center">
+                <h2 className="text-4xl md:text-5xl font-bold text-black dark:text-white mb-6">
+                  Global Capabilities
+                </h2>
+                <p className="text-lg text-black dark:text-gray-300 mb-8">
+                  Send and receive payments worldwide
+                </p>
+              </div>
+            </div>
+          )}
+          {currentPage === 4 && (
+            <div className="container mx-auto px-4 max-w-7xl">
+              <div className="text-center">
+                <h2 className="text-4xl md:text-5xl font-bold text-black dark:text-white mb-6">
+                  Innovative Solutions
+                </h2>
+                <p className="text-lg text-black dark:text-gray-300 mb-8">
+                  Use cutting-edge technologies to grow your business
+                </p>
+              </div>
+            </div>
+          )}
           </section>
+        </PageTransition>
+      </AnimatePresence>
+      <PageDots
+        totalPages={4}
+        currentPage={currentPage}
+        onPageChange={(page, direction) => {
+          setDirection(direction);
+          setCurrentPage(page);
+        }}
+      />
       <AuthModal
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}

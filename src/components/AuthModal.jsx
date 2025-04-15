@@ -62,7 +62,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
               onClick={onClose}
               className={`absolute right-4 top-4 p-1 rounded-full transition-colors duration-200
                 ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
-              aria-label="Закрыть"
+              aria-label="Close"
             >
               <X size={20} />
             </button>
